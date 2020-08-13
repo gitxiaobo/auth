@@ -18,15 +18,30 @@ func main() {
 		return
 	}
 
-	e, err := api.NewEnforcer(db, "config/auth.json")
+	e, err := api.NewEnforcer(db, "config/auth.json", "config/resource.json")
 
-	// e.CreateTable()
+	e.CreateOrUpdateUserResouce(2, "region", []int64{1})
 
-	// b, err := e.CheckApiAuth(1, "111")
-	// fmt.Println(b, err)
+	// codes, _ := e.GetRoleFuncAuths(1)
+	// fmt.Println(codes)
+	r, _ := e.GetUserResources(1, "region")
+	fmt.Println(r)
 
-	auths, err := e.GetAuths()
-	fmt.Println(auths, err)
+	// e.CreateOrUpdateUser(1)
+	// e.CreateOrUpdateRole(1, "技术人员")
+	// e.CreateOrUpdateUserRole(1, []int64{1})
+
+	// e.CreateOrUpdateRoleAuths(1, []string{"1", "2"})
+
+	// roles, err := e.GetUserFuncAuths(1)
+	// fmt.Println(roles, err)
+	// e.CreateOrUpdateRoleAuths(1, []string{"100"})
+
+	b, err := e.CheckApiAuth(1, "/api/customers/4", "get")
+	fmt.Println(b, err)
+
+	// auths, err := e.GetAuths()
+	// fmt.Println(auths, err)
 
 	// e.CreateOrUpdateUser(1)
 	// e.CreateOrUpdateRole(1, "技术人员")
