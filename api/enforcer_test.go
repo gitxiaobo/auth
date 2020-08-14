@@ -1,24 +1,21 @@
-package main
+package api
 
 import (
 	"fmt"
-
-	"auth/api"
+	"testing"
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
-// var db *gorm.DB
-
-func main() {
+func Test(t *testing.T) {
 	db, err := gorm.Open("mysql", "root:@tcp(127.0.0.1:3306)/auth?charset=utf8&parseTime=True&loc=Local")
 	if err != nil {
 		fmt.Println("failed to connect database:", err)
 		return
 	}
 
-	e, err := api.NewEnforcer(db, "config/auth.json", "config/resource.json")
+	e, err := NewEnforcer(db, "../config/auth.json", "../config/resource.json")
 
 	e.CreateOrUpdateUserResouce(2, "region", []int64{1})
 
