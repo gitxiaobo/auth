@@ -1,4 +1,4 @@
-module auth
+module github.com/gitxiaobo/auth
 
 go 1.14
 

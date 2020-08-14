@@ -1,8 +1,8 @@
 package api
 
 import (
-	"auth/errors"
-	"auth/models"
+	"github.com/gitxiaobo/auth/errors"
+	"github.com/gitxiaobo/auth/models"
 )
 
 // 用户绑定角色

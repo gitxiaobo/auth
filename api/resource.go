@@ -1,11 +1,12 @@
 package api
 
 import (
-	"auth/models"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"os"
+
+	"github.com/gitxiaobo/auth/models"
 )
 
 type Resource struct {

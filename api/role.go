@@ -1,8 +1,9 @@
 package api
 
 import (
-	"auth/models"
 	"encoding/json"
+
+	"github.com/gitxiaobo/auth/models"
 )
 
 // 创建或更新角色

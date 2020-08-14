@@ -1,7 +1,7 @@
 package api
 
 import (
-	"auth/models"
+	"github.com/gitxiaobo/auth/models"
 
 	"github.com/jinzhu/gorm"
 )

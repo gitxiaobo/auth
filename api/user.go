@@ -1,8 +1,9 @@
 package api
 
 import (
-	"auth/models"
 	"encoding/json"
+
+	"github.com/gitxiaobo/auth/models"
 
 	"github.com/wxnacy/wgo/arrays"
 )
