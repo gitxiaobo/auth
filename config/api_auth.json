@@ -1,0 +1,17 @@
+[
+  {
+    "code": "100",
+    "url": "/api/customers",
+    "method": "get"
+  },
+  {
+    "code": "101",
+    "url": "/api/customers",
+    "method": "post"
+  },
+  {
+    "code": "102",
+    "url": "/api/customers/[\\d]",
+    "method": "get"
+  }
+]

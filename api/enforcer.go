@@ -9,16 +9,18 @@ import (
 type Enforcer struct {
 	DB                 *gorm.DB
 	Disabled           bool
-	AuthConfigPath     string
+	FuncAuthConfigPath string
+	ApiAuthConfigPath  string
 	ResourceConfigPath string
 }
 
 // 获取实例
-func NewEnforcer(db *gorm.DB, authConfigPath string, resourceConfigPath string) (*Enforcer, error) {
+func NewEnforcer(db *gorm.DB, funcAuthConfigPath string, apiAuthConfigPath string, resourceConfigPath string) (*Enforcer, error) {
 	e := &Enforcer{}
 
 	e.DB = db
-	e.AuthConfigPath = authConfigPath
+	e.FuncAuthConfigPath = funcAuthConfigPath
+	e.ApiAuthConfigPath = apiAuthConfigPath
 	e.ResourceConfigPath = resourceConfigPath
 
 	if !db.HasTable(&models.User{}) {
@@ -33,6 +35,6 @@ func NewEnforcer(db *gorm.DB, authConfigPath string, resourceConfigPath string) 
 
 // 创建权限相关表
 func (e *Enforcer) CreateTable() (err error) {
-	err = e.DB.AutoMigrate(&models.User{}, &models.Role{}, &models.UserRole{}, &models.RoleAuthority{}, &models.UserResource{}).Error
+	err = e.DB.AutoMigrate(&models.User{}, &models.Role{}, &models.UserRole{}, &models.RoleAuthority{}, &models.UserResource{}, &models.Authority{}).Error
 	return
 }

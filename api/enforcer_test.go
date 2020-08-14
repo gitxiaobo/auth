@@ -15,8 +15,11 @@ func Test(t *testing.T) {
 		return
 	}
 
-	e, err := NewEnforcer(db, "../config/auth.json", "../config/resource.json")
+	e, err := NewEnforcer(db, "../config/auth.json", "../config/api_auth.json", "../config/resource.json")
 
+	auths, err := e.GetFuncAuths()
+	fmt.Println(auths, err)
+	e.GetFuncAuthArray()
 	// e.CreateOrUpdateUserResouce(2, "region", []int64{1})
 
 	// codes, _ := e.GetRoleFuncAuths(1)
@@ -32,10 +35,11 @@ func Test(t *testing.T) {
 
 	// roles, err := e.GetUserFuncAuths(1)
 	// fmt.Println(roles, err)
-	// e.CreateOrUpdateRoleAuths(1, []string{"100"})
+	e.CreateOrUpdateRoleAuths(1, []string{"1100", "200"})
 
-	// b, err := e.CheckApiAuth(1, "/api/customers/4", "get")
-	// fmt.Println(b, err)
+	b, err := e.CheckApiAuth(1, "/api/customers/4", "get")
+	fmt.Println("========")
+	fmt.Println(b, err)
 
 	// auths, err := e.GetAuths()
 	// fmt.Println(auths, err)
