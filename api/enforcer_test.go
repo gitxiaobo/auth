@@ -17,12 +17,12 @@ func Test(t *testing.T) {
 
 	e, err := NewEnforcer(db, "../config/auth.json", "../config/resource.json")
 
-	e.CreateOrUpdateUserResouce(2, "region", []int64{1})
+	// e.CreateOrUpdateUserResouce(2, "region", []int64{1})
 
 	// codes, _ := e.GetRoleFuncAuths(1)
 	// fmt.Println(codes)
-	r, _ := e.GetUserResources(1, "region")
-	fmt.Println(r)
+	// r, _ := e.GetUserResources(1, "region")
+	fmt.Println(e, err)
 
 	// e.CreateOrUpdateUser(1)
 	// e.CreateOrUpdateRole(1, "技术人员")
@@ -34,8 +34,8 @@ func Test(t *testing.T) {
 	// fmt.Println(roles, err)
 	// e.CreateOrUpdateRoleAuths(1, []string{"100"})
 
-	b, err := e.CheckApiAuth(1, "/api/customers/4", "get")
-	fmt.Println(b, err)
+	// b, err := e.CheckApiAuth(1, "/api/customers/4", "get")
+	// fmt.Println(b, err)
 
 	// auths, err := e.GetAuths()
 	// fmt.Println(auths, err)

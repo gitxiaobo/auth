@@ -8,8 +8,8 @@ var CategoryMap = map[int]string{
 
 type RoleAuthority struct {
 	ID            int64
-	RoleID        int64
-	Category      int `gorm:"default:1"`
+	RoleID        int64 `gorm:"index:index_role_id"`
+	Category      int   `gorm:"default:1"`
 	FuncAuthCodes string
 	ApiAuthCodes  string
 
