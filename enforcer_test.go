@@ -15,7 +15,7 @@ func Test(t *testing.T) {
 		return
 	}
 
-	e, err := NewEnforcer(db, "../config/auth.json", "../config/api_auth.json", "../config/resource.json")
+	e, err := NewEnforcer(db, "config/auth.json", "config/api_auth.json", "config/resource.json")
 
 	// auths, err := e.GetFuncAuths()
 	// fmt.Println(auths, err)
