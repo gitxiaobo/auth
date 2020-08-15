@@ -17,9 +17,11 @@ func Test(t *testing.T) {
 
 	e, err := NewEnforcer(db, "../config/auth.json", "../config/api_auth.json", "../config/resource.json")
 
-	auths, err := e.GetFuncAuths()
-	fmt.Println(auths, err)
-	e.GetFuncAuthArray()
+	// auths, err := e.GetFuncAuths()
+	// fmt.Println(auths, err)
+
+	roles, _ := e.GetRoles(map[string]interface{}{})
+	fmt.Println(roles)
 	// e.CreateOrUpdateUserResouce(2, "region", []int64{1})
 
 	// codes, _ := e.GetRoleFuncAuths(1)
