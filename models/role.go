@@ -10,7 +10,7 @@ type Role struct {
 
 	Status int `gorm:"default:1"`
 
-	Auths []RoleAuthority
+	Auths []RoleAuthority `json:"auths"`
 
 	CreatedAt time.Time
 	UpdatedAt time.Time
