@@ -21,6 +21,7 @@ func (e *Enforcer) DeleteUser(userID int64) (user models.User, err error) {
 		return
 	}
 
+	e.DB.Delete(models.UserRole{}, "user_id = ?", user.ID)
 	e.DB.Delete(&user)
 	return
 }
@@ -81,6 +82,18 @@ func (e *Enforcer) GetUserApiAuths(userID int64) (authCodes []string, err error)
 			json.Unmarshal([]byte(roleAuth.ApiAuthCodes), &apiAuths)
 			authCodes = append(authCodes, apiAuths...)
 		}
+	}
+	return
+}
+
+func (e *Enforcer) GetUserRoles(userID int64) (roles []models.Role, err error) {
+	var user models.User
+	err = e.DB.Where("user_id = ?", userID).Preload("Roles").Preload("Roles.Role").First(&user).Error
+	if err != nil {
+		return
+	}
+	for _, ur := range user.Roles {
+		roles = append(roles, ur.Role)
 	}
 	return
 }

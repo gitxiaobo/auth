@@ -20,7 +20,11 @@ func Test(t *testing.T) {
 	// auths, err := e.GetFuncAuths()
 	// fmt.Println(auths, err)
 
-	roles, _ := e.GetRoles(map[string]interface{}{})
+	// roles, _ := e.GetRoles(map[string]interface{}{})
+	// fmt.Println(roles)
+	e.CreateOrUpdateUser(1)
+	e.CreateOrUpdateUserRole(1, []int64{1})
+	roles, _ := e.GetUserRoles(1)
 	fmt.Println(roles)
 	// e.CreateOrUpdateUserResouce(2, "region", []int64{1})
 

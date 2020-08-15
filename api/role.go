@@ -53,7 +53,7 @@ func (e *Enforcer) DeleteRole(roleID int64) (role models.Role, err error) {
 
 // 获取角色列表
 func (e *Enforcer) GetRoles(args map[string]interface{}) (roles []models.Role, err error) {
-	err = e.DB.Where(args).Find(&roles).Preload("Auths").Error
+	err = e.DB.Where(args).Preload("Auths").Find(&roles).Error
 	return
 }
 
