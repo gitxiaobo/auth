@@ -10,7 +10,7 @@ type RoleAuthority struct {
 	ID            int64
 	RoleID        int64  `gorm:"index:index_role_id"`
 	Category      int    `gorm:"default:1"`
-	FuncAuthCodes string `gorm:"func_auth_codes"`
+	FuncAuthCodes string `json:"func_auth_codes"`
 	ApiAuthCodes  string
 
 	CreatedAt time.Time
