@@ -65,24 +65,18 @@ func (e *Enforcer) CreateOrUpdateRoleAuths(roleID int64, authCodes []string) (er
 		return
 	}
 
-	apiAuthCodes := []string{}
+	c1, c2, err := e.GetCodesByFuncAuthCodes(authCodes)
+	chosedCodesString, _ := json.Marshal(authCodes)
 
-	auths, _ := e.GetFuncAuthArray()
-	for _, funcAuthCode := range authCodes {
-		for _, auth := range auths {
-			if funcAuthCode == auth.Code {
-				apiAuthCodes = append(apiAuthCodes, auth.ApiCodes...)
-			}
-		}
-	}
-
-	authCodesString, _ := json.Marshal(authCodes)
-	apiAuthCodesString, _ := json.Marshal(apiAuthCodes)
+	// 获取父级权限
+	authCodesString, _ := json.Marshal(c1)
+	apiAuthCodesString, _ := json.Marshal(c2)
 
 	var ra models.RoleAuthority
 	ra.RoleID = roleID
 	ra.FuncAuthCodes = string(authCodesString)
 	ra.ApiAuthCodes = string(apiAuthCodesString)
+	ra.ChosedCodes = string(chosedCodesString)
 
 	err = e.DB.Where("role_id = ?", ra.RoleID).First(&ra).Error
 	if err != nil {
@@ -90,7 +84,7 @@ func (e *Enforcer) CreateOrUpdateRoleAuths(roleID int64, authCodes []string) (er
 		return
 	}
 
-	err = e.DB.Model(&ra).Updates(models.RoleAuthority{FuncAuthCodes: string(authCodesString), ApiAuthCodes: string(apiAuthCodesString)}).Error
+	err = e.DB.Model(&ra).Updates(models.RoleAuthority{FuncAuthCodes: string(authCodesString), ApiAuthCodes: string(apiAuthCodesString), ChosedCodes: string(chosedCodesString)}).Error
 	return
 }
 

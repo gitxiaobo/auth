@@ -22,16 +22,19 @@ func Test(t *testing.T) {
 
 	// roles, _ := e.GetRoles(map[string]interface{}{})
 	// fmt.Println(roles)
-	e.CreateOrUpdateUser(1)
-	e.CreateOrUpdateUserRole(1, []int64{1})
-	roles, _ := e.GetUserRoles(1)
-	fmt.Println(roles)
+	// e.GetCodesByFuncAuthCodes([]string{"1100", "1200"})
+	// e.CreateOrUpdateUser(1)
+	// e.CreateOrUpdateUserRole(1, []int64{1})
+	// roles, _ := e.GetUserRoles(1)
+	// fmt.Println(roles)
 	// e.CreateOrUpdateUserResouce(2, "region", []int64{1})
 
 	// codes, _ := e.GetRoleFuncAuths(1)
 	// fmt.Println(codes)
 	// r, _ := e.GetUserResources(1, "region")
 	fmt.Println(e, err)
+
+	e.CreateOrUpdateRoleAuths(1, []string{"1200"})
 
 	// e.CreateOrUpdateUser(1)
 	// e.CreateOrUpdateRole(1, "技术人员")
@@ -41,11 +44,11 @@ func Test(t *testing.T) {
 
 	// roles, err := e.GetUserFuncAuths(1)
 	// fmt.Println(roles, err)
-	e.CreateOrUpdateRoleAuths(1, []string{"1100", "200"})
+	// e.CreateOrUpdateRoleAuths(1, []string{"1100", "200"})
 
-	b, err := e.CheckApiAuth(1, "/api/customers/4", "get")
-	fmt.Println("========")
-	fmt.Println(b, err)
+	// b, err := e.CheckApiAuth(1, "/api/customers/4", "get")
+	// fmt.Println("========")
+	// fmt.Println(b, err)
 
 	// auths, err := e.GetAuths()
 	// fmt.Println(auths, err)
