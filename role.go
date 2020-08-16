@@ -87,19 +87,3 @@ func (e *Enforcer) CreateOrUpdateRoleAuths(roleID int64, authCodes []string) (er
 	err = e.DB.Model(&ra).Updates(models.RoleAuthority{FuncAuthCodes: string(authCodesString), ApiAuthCodes: string(apiAuthCodesString), ChosedCodes: string(chosedCodesString)}).Error
 	return
 }
-
-// 获取角色前端权限码
-func (e *Enforcer) GetRoleFuncAuths(roleID int64) (authCodes []string, err error) {
-	var role models.Role
-	err = e.DB.Where("id = ?", roleID).Preload("Auths").First(&role).Error
-	if err != nil {
-		return
-	}
-
-	for _, roleAuth := range role.Auths {
-		var codes []string
-		json.Unmarshal([]byte(roleAuth.FuncAuthCodes), &codes)
-		authCodes = append(authCodes, codes...)
-	}
-	return
-}
