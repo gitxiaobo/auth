@@ -1,17 +1,17 @@
 [
   {
     "name": "区域",
-    "resource_key": "region",
-    "filed_name": "region_id"
+    "key": "region",
+    "field_name": "region_id"
   },
   {
     "name": "经销商",
-    "resource_key": "dealer",
-    "filed_name": "dealer_id"
+    "key": "dealer",
+    "field_name": "dealer_id"
   },
   {
     "name": "人员",
-    "resource_key": "user",
-    "filed_name": "user_id"
+    "key": "user",
+    "field_name": "user_id"
   }
 ]

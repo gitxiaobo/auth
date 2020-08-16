@@ -10,9 +10,9 @@ import (
 )
 
 type Resource struct {
-	Name        string
-	FiledName   string
-	ResourceKey string
+	Name      string `json:"name"`
+	FieldName string `json:"field_name"`
+	Key       string `json:"key"`
 }
 
 func (e *Enforcer) GetResources() (resoures []Resource, err error) {
@@ -30,20 +30,35 @@ func (e *Enforcer) GetResources() (resoures []Resource, err error) {
 	return
 }
 
-func (e *Enforcer) GetUserResources(userID int64, resourceKey string) (resoures []int64, err error) {
+func (e *Enforcer) GetUserResourcesByKey(userID int64, key string) (value []int64, err error) {
+	var user models.User
+	err = e.DB.Where("user_id = ?", userID).First(&user).Error
+	if err != nil {
+		return
+	}
+	var ur models.UserResource
+	err = e.DB.Where("user_id = ? and resource_key = ?", user.ID, key).First(&ur).Error
+	if err != nil {
+		return
+	}
+
+	json.Unmarshal([]byte(ur.ResourceValue), &value)
+	return
+}
+
+func (e *Enforcer) GetUserResources(userID int64, key string) (resoures []models.UserResource, err error) {
 	var user models.User
 	err = e.DB.Where("user_id = ?", userID).First(&user).Error
 	if err != nil {
 		return
 	}
 
-	var ur models.UserResource
-	err = e.DB.Where("user_id = ? and resource_key = ?", user.ID, resourceKey).First(&ur).Error
-	if err != nil {
-		return
+	db := e.DB.Where("user_id = ?", user.ID)
+	if len(key) > 0 {
+		db = db.Where("resource_key = ?", key)
 	}
 
-	json.Unmarshal([]byte(ur.Resoures), &resoures)
+	err = db.Find(&resoures).Error
 	return
 }
 
@@ -59,7 +74,7 @@ func (e *Enforcer) CreateOrUpdateUserResouce(userID int64, key string, ids []int
 	var ur models.UserResource
 	ur.UserID = user.ID
 	ur.ResourceKey = key
-	ur.Resoures = string(idsString)
+	ur.ResourceValue = string(idsString)
 
 	err = e.DB.Where("user_id = ? and resource_key = ?", user.ID, key).First(&ur).Error
 	if err != nil {
@@ -67,6 +82,6 @@ func (e *Enforcer) CreateOrUpdateUserResouce(userID int64, key string, ids []int
 		return
 	}
 
-	err = e.DB.Model(&ur).Update("Resoures", string(idsString)).Error
+	err = e.DB.Model(&ur).Update("resource_value", string(idsString)).Error
 	return
 }
