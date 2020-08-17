@@ -34,7 +34,7 @@ func Test(t *testing.T) {
 	// r, _ := e.GetUserResources(1, "region")
 	fmt.Println(e, err)
 
-	e.CreateOrUpdateRoleAuths(1, []string{"1200"})
+	e.CreateOrUpdateRoleAuths(4, []string{"1100", "200"})
 
 	// e.CreateOrUpdateUser(1)
 	// e.CreateOrUpdateRole(1, "技术人员")

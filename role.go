@@ -65,8 +65,8 @@ func (e *Enforcer) CreateOrUpdateRoleAuths(roleID int64, authCodes []string) (er
 		return
 	}
 
-	c1, c2, err := e.GetCodesByFuncAuthCodes(authCodes)
 	chosedCodesString, _ := json.Marshal(authCodes)
+	c1, c2, err := e.GetCodesByFuncAuthCodes(authCodes)
 
 	// 获取父级权限
 	authCodesString, _ := json.Marshal(c1)
