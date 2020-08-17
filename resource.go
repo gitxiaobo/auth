@@ -10,9 +10,11 @@ import (
 )
 
 type Resource struct {
-	Name      string `json:"name"`
-	FieldName string `json:"field_name"`
-	Key       string `json:"key"`
+	Name      string                 `json:"name"`
+	FieldName string                 `json:"field_name"`
+	Key       string                 `json:"key"`
+	Table     string                 `json:"table"`
+	Items     map[string]interface{} `json:"items"`
 }
 
 func (e *Enforcer) GetResources() (resoures []Resource, err error) {

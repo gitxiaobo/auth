@@ -59,6 +59,9 @@ func (e *Enforcer) GetUserFuncAuths(userID int64) (authCodes []string, err error
 	}
 
 	for _, userRole := range user.Roles {
+		if userRole.Role.Status != 1 {
+			continue
+		}
 		for _, roleAuth := range userRole.Role.Auths {
 			var codes []string
 			json.Unmarshal([]byte(roleAuth.FuncAuthCodes), &codes)
@@ -77,6 +80,9 @@ func (e *Enforcer) GetUserApiAuths(userID int64) (authCodes []string, err error)
 	}
 
 	for _, userRole := range user.Roles {
+		if userRole.Role.Status != 1 {
+			continue
+		}
 		for _, roleAuth := range userRole.Role.Auths {
 			var apiAuths []string
 			json.Unmarshal([]byte(roleAuth.ApiAuthCodes), &apiAuths)
@@ -93,6 +99,9 @@ func (e *Enforcer) GetUserRoles(userID int64) (roles []models.Role, err error) {
 		return
 	}
 	for _, ur := range user.Roles {
+		if ur.Role.Status != 1 {
+			continue
+		}
 		roles = append(roles, ur.Role)
 	}
 	return

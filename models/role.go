@@ -8,7 +8,7 @@ type Role struct {
 	Name     string `json:"name"`
 	Desc     string `json:"desc"`
 
-	Status int `gorm:"default:1"`
+	Status int `json:"status" gorm:"default:1"`
 
 	Auths []RoleAuthority `json:"auths"`
 
