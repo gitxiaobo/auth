@@ -38,6 +38,22 @@ func (e *Enforcer) CreateOrUpdateRole(role models.Role, codes []string) (rl mode
 	return
 }
 
+func (e *Enforcer) SwitchRoleStatus(id int64) (err error) {
+	var r models.Role
+	err = e.DB.Where("id = ?", id).First(&r).Error
+	if err != nil {
+		return
+	}
+
+	status := 1
+	if r.Status == 1 {
+		status = 2
+	}
+
+	err = e.DB.Model(&r).Update("Status", status).Error
+	return
+}
+
 // 删除角色
 func (e *Enforcer) DeleteRole(roleID int64) (role models.Role, err error) {
 	err = e.DB.Where("id = ?", roleID).First(&role).Error
