@@ -17,8 +17,8 @@ func Test(t *testing.T) {
 
 	e, err := NewEnforcer(db, "config/auth.json", "config/api_auth.json", "config/resource.json")
 
-	err = e.SwitchRoleStatus(1)
-	fmt.Println(err)
+	// err = e.SwitchRoleStatus(1)
+	// fmt.Println(err)
 
 	// roles, _ := e.GetRoles(map[string]interface{}{})
 	// fmt.Println(roles)
@@ -35,6 +35,10 @@ func Test(t *testing.T) {
 	fmt.Println(e, err)
 
 	e.CreateOrUpdateRoleAuths(4, []string{"1100", "200"})
+	e.CreateOrUpdateUserRole(1, []int64{1, 2})
+
+	codes, err := e.GetUserApiAuths(1)
+	fmt.Println(codes, err)
 
 	// e.CreateOrUpdateUser(1)
 	// e.CreateOrUpdateRole(1, "技术人员")

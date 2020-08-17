@@ -68,6 +68,7 @@ func (e *Enforcer) GetUserFuncAuths(userID int64) (authCodes []string, err error
 			authCodes = append(authCodes, codes...)
 		}
 	}
+	authCodes = removeDuplicateElement(authCodes)
 	return
 }
 
@@ -89,6 +90,7 @@ func (e *Enforcer) GetUserApiAuths(userID int64) (authCodes []string, err error)
 			authCodes = append(authCodes, apiAuths...)
 		}
 	}
+	authCodes = removeDuplicateElement(authCodes)
 	return
 }
 
