@@ -17,6 +17,7 @@ type Resource struct {
 	Items     map[string]interface{} `json:"items"`
 }
 
+// 获取数据资源配置文件数据
 func (e *Enforcer) GetResources() (resoures []Resource, err error) {
 	jsonFile, err := os.Open(e.ResourceConfigPath)
 
@@ -32,9 +33,9 @@ func (e *Enforcer) GetResources() (resoures []Resource, err error) {
 	return
 }
 
+// 获取用户某个资源的资源值
 func (e *Enforcer) GetUserResourcesByKey(userID int64, key string) (value []int64, err error) {
-	var user models.User
-	err = e.DB.Where("user_id = ?", userID).First(&user).Error
+	user, err := e.findUserByUserID(userID)
 	if err != nil {
 		return
 	}
@@ -48,9 +49,9 @@ func (e *Enforcer) GetUserResourcesByKey(userID int64, key string) (value []int6
 	return
 }
 
+// 获取用户资源列表
 func (e *Enforcer) GetUserResources(userID int64, key string) (resoures []models.UserResource, err error) {
-	var user models.User
-	err = e.DB.Where("user_id = ?", userID).First(&user).Error
+	user, err := e.findUserByUserID(userID)
 	if err != nil {
 		return
 	}
@@ -64,9 +65,9 @@ func (e *Enforcer) GetUserResources(userID int64, key string) (resoures []models
 	return
 }
 
+// 用户资源管理
 func (e *Enforcer) CreateOrUpdateUserResouce(userID int64, key string, ids []int64) (err error) {
-	var user models.User
-	err = e.DB.Where("user_id = ?", userID).First(&user).Error
+	user, err := e.findUserByUserID(userID)
 	if err != nil {
 		return
 	}

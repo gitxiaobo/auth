@@ -18,6 +18,7 @@ type Auth struct {
 	Auths    []*Auth  `json:"children"`
 }
 
+// 获取权限配置文件数据
 func (e *Enforcer) GetFuncAuths() (auths []Auth, err error) {
 	jsonFile, err := os.Open(e.FuncAuthConfigPath)
 
@@ -66,7 +67,7 @@ func removeDuplicateElement(arr []string) []string {
 }
 
 // 获取父级功能权限码和api权限码
-func (e *Enforcer) GetCodesByFuncAuthCodes(funcAuthCodes []string) (funcCodes []string, apiCodes []string, err error) {
+func (e *Enforcer) getCodesByFuncAuthCodes(funcAuthCodes []string) (funcCodes []string, apiCodes []string, err error) {
 	auths, err := e.GetFuncAuths()
 	for _, l1 := range auths {
 		index := arrays.ContainsString(funcAuthCodes, l1.Code)
@@ -165,7 +166,8 @@ type APIAuth struct {
 	Method string `json:"method"`
 }
 
-func (e *Enforcer) GetAPIAuths() (auths []APIAuth, err error) {
+// 获取API配置文件
+func (e *Enforcer) getAPIAuths() (auths []APIAuth, err error) {
 	jsonFile, err := os.Open(e.ApiAuthConfigPath)
 
 	if err != nil {
@@ -180,8 +182,8 @@ func (e *Enforcer) GetAPIAuths() (auths []APIAuth, err error) {
 }
 
 // 获取api权限码
-func (e *Enforcer) GetApiAuthCode(url string, method string) (code string, err error) {
-	auths, _ := e.GetAPIAuths()
+func (e *Enforcer) getApiAuthCode(url string, method string) (code string, err error) {
+	auths, _ := e.getAPIAuths()
 	for _, auth := range auths {
 		if auth.Method == method {
 			if ok, _ := regexp.MatchString(auth.URL, url); ok {

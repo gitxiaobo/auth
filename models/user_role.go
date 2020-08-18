@@ -12,3 +12,7 @@ type UserRole struct {
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
+
+func (UserRole) TableName() string {
+	return "auth_user_roles"
+}

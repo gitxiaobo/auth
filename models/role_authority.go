@@ -17,3 +17,7 @@ type RoleAuthority struct {
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
+
+func (RoleAuthority) TableName() string {
+	return "auth_role_authorities"
+}

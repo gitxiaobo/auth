@@ -20,8 +20,11 @@ func TestResource(t *testing.T) {
 	// r, _ := e.GetResources()
 	// fmt.Println(r)
 
-	r, _ := e.GetUserResourcesByKey(1, "region")
-	fmt.Println(r)
+	// r, _ := e.GetUserResourcesByKey(1, "region")
+	// fmt.Println(r)
+	e.CreateOrUpdateUser(1)
+	b := e.isSuperAdmin(1)
+	fmt.Println(b)
 
 	e.CreateOrUpdateUserResouce(1, "sss", []int64{1, 2, 3})
 	defer db.Close()

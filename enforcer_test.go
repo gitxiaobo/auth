@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"testing"
 
+	"github.com/gitxiaobo/auth/models"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
@@ -22,7 +23,7 @@ func Test(t *testing.T) {
 
 	// roles, _ := e.GetRoles(map[string]interface{}{})
 	// fmt.Println(roles)
-	// e.GetCodesByFuncAuthCodes([]string{"1100", "1200"})
+	// e.getCodesByFuncAuthCodes([]string{"1100", "1200"})
 	// e.CreateOrUpdateUser(1)
 	// e.CreateOrUpdateUserRole(1, []int64{1})
 	// roles, _ := e.GetUserRoles(1)
@@ -33,11 +34,11 @@ func Test(t *testing.T) {
 	// fmt.Println(codes)
 	// r, _ := e.GetUserResources(1, "region")
 	fmt.Println(e, err)
-
-	e.CreateOrUpdateRoleAuths(4, []string{"1100", "200"})
+	e.CreateOrUpdateRole(models.Role{Name: "123"}, 1, []string{"123"})
+	e.createOrUpdateRoleAuths(4, 1, []string{"1100", "200"})
 	e.CreateOrUpdateUserRole(1, []int64{1, 2})
 
-	codes, err := e.GetUserApiAuths(1)
+	codes, err := e.getUserApiAuths(1)
 	fmt.Println(codes, err)
 
 	// e.CreateOrUpdateUser(1)

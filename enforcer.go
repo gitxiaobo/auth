@@ -35,6 +35,6 @@ func NewEnforcer(db *gorm.DB, funcAuthConfigPath string, apiAuthConfigPath strin
 
 // 创建权限相关表
 func (e *Enforcer) CreateTable() (err error) {
-	err = e.DB.AutoMigrate(&models.User{}, &models.Role{}, &models.UserRole{}, &models.RoleAuthority{}, &models.UserResource{}, &models.Authority{}).Error
+	err = e.DB.AutoMigrate(&models.User{}, &models.Role{}, &models.UserRole{}, &models.RoleAuthority{}, &models.UserResource{}).Error
 	return
 }

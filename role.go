@@ -9,7 +9,7 @@ import (
 )
 
 // 创建或更新角色
-func (e *Enforcer) CreateOrUpdateRole(role models.Role, codes []string) (rl models.Role, err error) {
+func (e *Enforcer) CreateOrUpdateRole(role models.Role, category int, codes []string) (rl models.Role, err error) {
 	var r models.Role
 	err = e.DB.Where("name = ? and dealer_id = ?", role.Name, role.DealerID).First(&r).Error
 
@@ -31,13 +31,14 @@ func (e *Enforcer) CreateOrUpdateRole(role models.Role, codes []string) (rl mode
 	}
 
 	if err == nil {
-		err = e.CreateOrUpdateRoleAuths(role.ID, codes)
+		err = e.createOrUpdateRoleAuths(role.ID, category, codes)
 	}
 
 	err = e.DB.Where("id = ?", role.ID).Preload("Auths").First(&rl).Error
 	return
 }
 
+// 角色状态切换
 func (e *Enforcer) SwitchRoleStatus(id int64) (err error) {
 	var r models.Role
 	err = e.DB.Where("id = ?", id).First(&r).Error
@@ -74,15 +75,9 @@ func (e *Enforcer) GetRoles(args map[string]interface{}) (roles []models.Role, e
 }
 
 // 更新角色权限
-func (e *Enforcer) CreateOrUpdateRoleAuths(roleID int64, authCodes []string) (err error) {
-	var role models.Role
-	err = e.DB.Where("id = ?", roleID).First(&role).Error
-	if err != nil {
-		return
-	}
-
+func (e *Enforcer) createOrUpdateRoleAuths(roleID int64, category int, authCodes []string) (err error) {
 	chosedCodesString, _ := json.Marshal(authCodes)
-	c1, c2, err := e.GetCodesByFuncAuthCodes(authCodes)
+	c1, c2, err := e.getCodesByFuncAuthCodes(authCodes)
 
 	// 获取父级权限
 	authCodesString, _ := json.Marshal(c1)
@@ -90,11 +85,12 @@ func (e *Enforcer) CreateOrUpdateRoleAuths(roleID int64, authCodes []string) (er
 
 	var ra models.RoleAuthority
 	ra.RoleID = roleID
+	ra.Category = category
 	ra.FuncAuthCodes = string(authCodesString)
 	ra.ApiAuthCodes = string(apiAuthCodesString)
 	ra.ChosedCodes = string(chosedCodesString)
 
-	err = e.DB.Where("role_id = ?", ra.RoleID).First(&ra).Error
+	err = e.DB.Where("role_id = ? and category = ?", ra.RoleID, category).First(&ra).Error
 	if err != nil {
 		err = e.DB.Create(&ra).Error
 		return

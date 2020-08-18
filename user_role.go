@@ -7,11 +7,8 @@ import (
 
 // 用户绑定角色
 func (e *Enforcer) CreateOrUpdateUserRole(userID int64, roleIDs []int64) (userRoles []models.UserRole, err error) {
-	var user models.User
-	err = e.DB.Where("user_id = ?", userID).First(&user).Error
-
+	user, err := e.findUserByUserID(userID)
 	if err != nil {
-		err = errors.USER_NOT_FOUND
 		return
 	}
 

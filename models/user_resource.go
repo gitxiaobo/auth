@@ -11,3 +11,7 @@ type UserResource struct {
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
+
+func (UserResource) TableName() string {
+	return "auth_user_resources"
+}
