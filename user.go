@@ -2,6 +2,7 @@ package auth
 
 import (
 	"encoding/json"
+	"strings"
 
 	"github.com/gitxiaobo/auth/models"
 
@@ -75,25 +76,34 @@ func (e *Enforcer) CheckApiAuth(userID int64, url string, method string) (b bool
 	return
 }
 
+type Result struct {
+	Category   int    `json:"category"`
+	CodeString string `json:"code_string"`
+	Codes      []string
+}
+
 // 获取用户前端权限码
-func (e *Enforcer) GetUserFuncAuths(userID int64) (authCodes []string, err error) {
-	var user models.User
-	err = e.DB.Where("user_id = ?", userID).Preload("Roles").Preload("Roles.Role").Preload("Roles.Role.Auths").First(&user).Error
+func (e *Enforcer) GetUserFuncAuths(userID int64) (results []Result, err error) {
+	user, err := e.findUserByUserID(userID)
 	if err != nil {
 		return
 	}
 
-	for _, userRole := range user.Roles {
-		if userRole.Role.Status != 1 {
-			continue
-		}
-		for _, roleAuth := range userRole.Role.Auths {
-			var codes []string
-			json.Unmarshal([]byte(roleAuth.FuncAuthCodes), &codes)
-			authCodes = append(authCodes, codes...)
-		}
+	var roleIDs []int64
+	err = e.DB.Table("auth_user_roles").Joins("right join auth_roles on auth_roles.id=auth_user_roles.role_id and auth_roles.status = 1").Where("auth_user_roles.user_id = ?", user.ID).Pluck("auth_roles.id", &roleIDs).Error
+	if err != nil {
+		return
 	}
-	authCodes = removeDuplicateElement(authCodes)
+
+	err = e.DB.Table("auth_role_authorities").Select("category, group_concat(func_auth_codes) as code_string").Where("role_id in (?)", roleIDs).Where("func_auth_codes != '[]' and func_auth_codes is not null").Group("category").Scan(&results).Error
+
+	for index, res := range results {
+		codeString := strings.ReplaceAll(res.CodeString, "],[", ",")
+		json.Unmarshal([]byte(codeString), &results[index].Codes)
+
+		results[index].CodeString = ""
+		results[index].Codes = removeDuplicateElement(results[index].Codes)
+	}
 	return
 }
 

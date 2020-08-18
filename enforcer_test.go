@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/gitxiaobo/auth/models"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
@@ -24,8 +23,8 @@ func Test(t *testing.T) {
 	// roles, _ := e.GetRoles(map[string]interface{}{})
 	// fmt.Println(roles)
 	// e.getCodesByFuncAuthCodes([]string{"1100", "1200"})
-	// e.CreateOrUpdateUser(1)
-	// e.CreateOrUpdateUserRole(1, []int64{1})
+	e.CreateOrUpdateUser(2)
+	e.CreateOrUpdateUserRole(1, []int64{1, 4})
 	// roles, _ := e.GetUserRoles(1)
 	// fmt.Println(roles)
 	// e.CreateOrUpdateUserResouce(2, "region", []int64{1})
@@ -33,10 +32,15 @@ func Test(t *testing.T) {
 	// codes, _ := e.GetRoleFuncAuths(1)
 	// fmt.Println(codes)
 	// r, _ := e.GetUserResources(1, "region")
+	// e.CreateOrUpdateRole(models.Role{Name: "1687"}, 4, []string{"123", "34f"})
+	// e.CreateOrUpdateUserRole(1, []int64{1, 4})
+	// e.createOrUpdateRoleAuths(4, 2, []string{"1100", "200"})
+	s, err := e.GetUserFuncAuths(1)
+	fmt.Println(s, err)
+
 	fmt.Println(e, err)
-	e.CreateOrUpdateRole(models.Role{Name: "123"}, 1, []string{"123"})
-	e.createOrUpdateRoleAuths(4, 1, []string{"1100", "200"})
-	e.CreateOrUpdateUserRole(1, []int64{1, 2})
+	// e.createOrUpdateRoleAuths(4, 1, []string{"1100", "200"})
+	// e.CreateOrUpdateUserRole(1, []int64{1, 2})
 
 	codes, err := e.getUserApiAuths(1)
 	fmt.Println(codes, err)
