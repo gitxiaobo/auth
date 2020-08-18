@@ -137,6 +137,14 @@ func (e *Enforcer) isSuperAdmin(uid int64) (b bool) {
 	return err == nil
 }
 
+func (e *Enforcer) IsSuperAdmin(userID int64) (b bool) {
+	user, err := e.findUserByUserID(userID)
+	if err == nil {
+		b = e.isSuperAdmin(user.ID)
+	}
+	return
+}
+
 func (e *Enforcer) findUserByUserID(userID int64) (user models.User, err error) {
 	err = e.DB.Where("user_id = ?", userID).First(&user).Error
 	return
