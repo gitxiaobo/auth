@@ -76,14 +76,14 @@ func (e *Enforcer) CheckApiAuth(userID int64, url string, method string) (b bool
 	return
 }
 
-type Result struct {
-	Category   int    `json:"category"`
-	CodeString string `json:"code_string"`
-	Codes      []string
+type UserFuncCode struct {
+	Category   int      `json:"category"`
+	CodeString string   `json:"code_string"`
+	Codes      []string `json:codes`
 }
 
 // 获取用户前端权限码
-func (e *Enforcer) GetUserFuncAuths(userID int64) (results []Result, err error) {
+func (e *Enforcer) GetUserFuncAuths(userID int64) (results []UserFuncCode, err error) {
 	user, err := e.findUserByUserID(userID)
 	if err != nil {
 		return

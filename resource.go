@@ -34,7 +34,7 @@ func (e *Enforcer) GetResources() (resoures []Resource, err error) {
 }
 
 // 获取用户某个资源的资源值
-func (e *Enforcer) GetUserResourcesByKey(userID int64, key string) (value []int64, err error) {
+func (e *Enforcer) GetUserResourcesByKey(userID int64, key string) (value []int64, fieldName string, err error) {
 	user, err := e.findUserByUserID(userID)
 	if err != nil {
 		return
@@ -46,6 +46,7 @@ func (e *Enforcer) GetUserResourcesByKey(userID int64, key string) (value []int6
 	}
 
 	json.Unmarshal([]byte(ur.ResourceValue), &value)
+	fieldName = ur.FieldName
 	return
 }
 
@@ -74,10 +75,13 @@ func (e *Enforcer) CreateOrUpdateUserResouce(userID int64, key string, ids []int
 
 	idsString, _ := json.Marshal(ids)
 
+	fieldName := e.getFieldNameByKey(key)
+
 	var ur models.UserResource
 	ur.UserID = user.ID
 	ur.ResourceKey = key
 	ur.ResourceValue = string(idsString)
+	ur.FieldName = fieldName
 
 	err = e.DB.Where("user_id = ? and resource_key = ?", user.ID, key).First(&ur).Error
 	if err != nil {
@@ -87,4 +91,17 @@ func (e *Enforcer) CreateOrUpdateUserResouce(userID int64, key string, ids []int
 
 	err = e.DB.Model(&ur).Update("resource_value", string(idsString)).Error
 	return
+}
+
+// 通过key得到查询的字段
+func (e *Enforcer) getFieldNameByKey(key string) string {
+	resources, err := e.GetResources()
+	if err == nil {
+		for _, r := range resources {
+			if r.Key == key {
+				return r.FieldName
+			}
+		}
+	}
+	return ""
 }

@@ -16,16 +16,16 @@ func TestResource(t *testing.T) {
 	}
 
 	e, _ := NewEnforcer(db, "config/auth.json", "config/api_auth.json", "config/resource.json")
-	// e.CreateTable()
+	e.CreateTable()
 	// r, _ := e.GetResources()
 	// fmt.Println(r)
 
-	// r, _ := e.GetUserResourcesByKey(1, "region")
-	// fmt.Println(r)
-	e.CreateOrUpdateUser(1)
-	b := e.isSuperAdmin(1)
-	fmt.Println(b)
+	r, s, _ := e.GetUserResourcesByKey(1, "user")
+	fmt.Println(r, s)
+	// e.CreateOrUpdateUser(1)
+	// b := e.isSuperAdmin(1)
+	// fmt.Println(b)
 
-	e.CreateOrUpdateUserResouce(1, "sss", []int64{1, 2, 3})
+	// e.CreateOrUpdateUserResouce(1, "user", []int64{1, 2, 3})
 	defer db.Close()
 }

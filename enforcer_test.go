@@ -23,8 +23,8 @@ func Test(t *testing.T) {
 	// roles, _ := e.GetRoles(map[string]interface{}{})
 	// fmt.Println(roles)
 	// e.getCodesByFuncAuthCodes([]string{"1100", "1200"})
-	e.CreateOrUpdateUser(2)
-	e.CreateOrUpdateUserRole(1, []int64{1, 4})
+	// e.CreateOrUpdateUser(2)
+	// e.CreateOrUpdateUserRole(1, []int64{1, 4})
 	// roles, _ := e.GetUserRoles(1)
 	// fmt.Println(roles)
 	// e.CreateOrUpdateUserResouce(2, "region", []int64{1})
@@ -38,12 +38,11 @@ func Test(t *testing.T) {
 	s, err := e.GetUserFuncAuths(1)
 	fmt.Println(s, err)
 
-	fmt.Println(e, err)
 	// e.createOrUpdateRoleAuths(4, 1, []string{"1100", "200"})
 	// e.CreateOrUpdateUserRole(1, []int64{1, 2})
 
-	codes, err := e.getUserApiAuths(1)
-	fmt.Println(codes, err)
+	// codes, err := e.getUserApiAuths(1)
+	// fmt.Println(codes, err)
 
 	// e.CreateOrUpdateUser(1)
 	// e.CreateOrUpdateRole(1, "技术人员")
