@@ -15,6 +15,7 @@ type Auth struct {
 	Desc     string   `json:"desc"`
 	Code     string   `json:"code"`
 	ApiCodes []string `json:"api_codes"`
+	Platform int      `json:"platform"` // 0 - 共用, 1 - 平台方, 2 - 中间商
 	Auths    []*Auth  `json:"children"`
 }
 
@@ -112,7 +113,7 @@ func (e *Enforcer) getCodesByFuncAuthCodes(funcAuthCodes []string) (funcCodes []
 				}
 
 				for _, l4 := range l3.Auths {
-					index := arrays.ContainsString(funcAuthCodes, l3.Code)
+					index := arrays.ContainsString(funcAuthCodes, l4.Code)
 					if index != -1 {
 						funcCodes = append(funcCodes, l1.Code)
 						apiCodes = append(apiCodes, l1.ApiCodes...)
@@ -130,7 +131,7 @@ func (e *Enforcer) getCodesByFuncAuthCodes(funcAuthCodes []string) (funcCodes []
 					}
 
 					for _, l5 := range l4.Auths {
-						index := arrays.ContainsString(funcAuthCodes, l3.Code)
+						index := arrays.ContainsString(funcAuthCodes, l5.Code)
 						if index != -1 {
 							funcCodes = append(funcCodes, l1.Code)
 							apiCodes = append(apiCodes, l1.ApiCodes...)

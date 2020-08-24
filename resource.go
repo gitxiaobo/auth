@@ -14,6 +14,7 @@ type Resource struct {
 	FieldName string                 `json:"field_name"`
 	Key       string                 `json:"key"`
 	Table     string                 `json:"table"`
+	Platform  int                    `json:"platform"` // 0 - 共用, 1 - 平台方, 2 - 中间商
 	Items     map[string]interface{} `json:"items"`
 }
 
