@@ -149,6 +149,55 @@ func (e *Enforcer) getCodesByFuncAuthCodes(funcAuthCodes []string) (funcCodes []
 								goto Finish
 							}
 						}
+
+						for _, l6 := range l5.Auths {
+							index := arrays.ContainsString(funcAuthCodes, l6.Code)
+							if index != -1 {
+								funcCodes = append(funcCodes, l1.Code)
+								apiCodes = append(apiCodes, l1.ApiCodes...)
+								funcCodes = append(funcCodes, l2.Code)
+								apiCodes = append(apiCodes, l2.ApiCodes...)
+								funcCodes = append(funcCodes, l3.Code)
+								apiCodes = append(apiCodes, l3.ApiCodes...)
+								funcCodes = append(funcCodes, l4.Code)
+								apiCodes = append(apiCodes, l4.ApiCodes...)
+								funcCodes = append(funcCodes, l5.Code)
+								apiCodes = append(apiCodes, l5.ApiCodes...)
+								funcCodes = append(funcCodes, l6.Code)
+								apiCodes = append(apiCodes, l6.ApiCodes...)
+
+								funcAuthCodes = append(funcAuthCodes[:index], funcAuthCodes[index+1:]...)
+								if len(funcAuthCodes) == 0 {
+									goto Finish
+								}
+							}
+
+							for _, l7 := range l6.Auths {
+								index := arrays.ContainsString(funcAuthCodes, l7.Code)
+								if index != -1 {
+									funcCodes = append(funcCodes, l1.Code)
+									apiCodes = append(apiCodes, l1.ApiCodes...)
+									funcCodes = append(funcCodes, l2.Code)
+									apiCodes = append(apiCodes, l2.ApiCodes...)
+									funcCodes = append(funcCodes, l3.Code)
+									apiCodes = append(apiCodes, l3.ApiCodes...)
+									funcCodes = append(funcCodes, l4.Code)
+									apiCodes = append(apiCodes, l4.ApiCodes...)
+									funcCodes = append(funcCodes, l5.Code)
+									apiCodes = append(apiCodes, l5.ApiCodes...)
+									funcCodes = append(funcCodes, l6.Code)
+									apiCodes = append(apiCodes, l6.ApiCodes...)
+									funcCodes = append(funcCodes, l7.Code)
+									apiCodes = append(apiCodes, l7.ApiCodes...)
+
+									funcAuthCodes = append(funcAuthCodes[:index], funcAuthCodes[index+1:]...)
+									if len(funcAuthCodes) == 0 {
+										goto Finish
+									}
+								}
+							}
+						}
+
 					}
 				}
 			}

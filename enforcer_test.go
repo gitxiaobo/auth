@@ -34,7 +34,7 @@ func Test(t *testing.T) {
 	// r, _ := e.GetUserResources(1, "region")
 	// e.CreateOrUpdateRole(models.Role{Name: "1687"}, 4, []string{"123", "34f"})
 	// e.CreateOrUpdateUserRole(1, []int64{1, 4})
-	e.createOrUpdateRoleAuths(1, 1, []string{"11101"})
+	e.createOrUpdateRoleAuths(1, 1, []string{"11301"})
 	s, err := e.GetUserFuncAuths(1)
 	fmt.Println(s, err)
 
