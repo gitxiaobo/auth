@@ -52,6 +52,7 @@ func (e *Enforcer) SwitchRoleStatus(id int64) (err error) {
 	}
 
 	err = e.DB.Model(&r).Update("Status", status).Error
+	e.changeUserAuthStatus(r.ID)
 	return
 }
 
@@ -62,6 +63,7 @@ func (e *Enforcer) DeleteRole(roleID int64) (role models.Role, err error) {
 		return
 	}
 
+	e.changeUserAuthStatus(roleID)
 	e.DB.Delete(models.RoleAuthority{}, "role_id = ?", role.ID)
 	e.DB.Delete(models.UserRole{}, "role_id = ?", role.ID)
 	e.DB.Delete(&role)
@@ -97,5 +99,22 @@ func (e *Enforcer) createOrUpdateRoleAuths(roleID int64, category int, authCodes
 	}
 
 	err = e.DB.Model(&ra).Updates(models.RoleAuthority{FuncAuthCodes: string(authCodesString), ApiAuthCodes: string(apiAuthCodesString), ChosedCodes: string(chosedCodesString)}).Error
+
+	if err == nil {
+		e.changeUserAuthStatus(roleID)
+	}
+	return
+}
+
+func (e *Enforcer) changeUserAuthStatus(roleID int64) {
+	var userRoles []models.UserRole
+	err := e.DB.Where("role_id = ?", roleID).Preload("User").Find(&userRoles).Error
+	if err == nil {
+		for _, ur := range userRoles {
+			if ur.User.ID > 0 {
+				e.DB.Model(&ur.User).Update("AuthStatus", 2)
+			}
+		}
+	}
 	return
 }

@@ -2,6 +2,7 @@ package auth
 
 import (
 	"encoding/json"
+	"errors"
 	"strings"
 
 	"github.com/gitxiaobo/auth/models"
@@ -51,6 +52,11 @@ func (e *Enforcer) CheckApiAuth(userID int64, url string, method string) (b bool
 
 	user, err := e.findUserByUserID(userID)
 	if err != nil {
+		return
+	}
+
+	if user.AuthStatus == 2 {
+		err = errors.New("auth_expired")
 		return
 	}
 
@@ -147,5 +153,13 @@ func (e *Enforcer) IsSuperAdmin(userID int64) (b bool) {
 
 func (e *Enforcer) findUserByUserID(userID int64) (user models.User, err error) {
 	err = e.DB.Where("user_id = ?", userID).First(&user).Error
+	return
+}
+
+func (e *Enforcer) NomarlUserAuthStatus(userID int64) {
+	user, err := e.findUserByUserID(userID)
+	if err == nil {
+		e.DB.Model(&user).Update("AuthStatus", 1)
+	}
 	return
 }
