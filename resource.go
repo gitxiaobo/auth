@@ -43,6 +43,14 @@ func (e *Enforcer) GetUserResourcesByKey(userID int64, key string) (value []int6
 	var ur models.UserResource
 	err = e.DB.Where("user_id = ? and resource_key = ?", user.ID, key).First(&ur).Error
 	if err != nil {
+		resources, _ := e.GetResources()
+		for _, r := range resources {
+			if r.Key == key {
+				fieldName = r.FieldName
+				err = nil
+				break
+			}
+		}
 		return
 	}
 
