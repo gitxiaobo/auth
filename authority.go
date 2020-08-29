@@ -236,7 +236,7 @@ func (e *Enforcer) getApiAuthCode(url string, method string) (code string, err e
 	auths, _ := e.getAPIAuths()
 	for _, auth := range auths {
 		if auth.Method == method {
-			if ok, _ := regexp.MatchString(auth.URL, url); ok {
+			if ok, _ := regexp.MatchString("^"+auth.URL+"$", url); ok {
 				code = auth.Code
 				return
 			}

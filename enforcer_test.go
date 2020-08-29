@@ -37,13 +37,13 @@ func Test(t *testing.T) {
 	// e.CreateOrUpdateRole(models.Role{Name: "16844447"}, 1, []string{"123", "34f"})
 	// e.DeleteRole(2)
 	// e.NomarlUserAuthStatus(2)
-	b, err := e.CheckApiAuth(1, "/454353453", "ddd")
+	// b, err := e.CheckApiAuth(1, "/454353453", "ddd")
 	// e.CreateOrUpdateUserRole(1, []int64{2})
 
 	// e.CreateOrUpdateUserRole(2, []int64{1})
 	// e.createOrUpdateRoleAuths(1, 1, []string{"11301"})
 	// s, err := e.GetUserFuncAuths(1)
-	fmt.Println(b, err)
+	// fmt.Println(b, err.Error() == "")
 	// e.DeleteRole(1)
 
 	// e.createOrUpdateRoleAuths(4, 1, []string{"1100", "200"})
@@ -62,9 +62,9 @@ func Test(t *testing.T) {
 	// fmt.Println(roles, err)
 	// e.CreateOrUpdateRoleAuths(1, []string{"1100", "200"})
 
-	// b, err := e.CheckApiAuth(1, "/api/customers/4", "get")
+	b, err := e.CheckApiAuth(1, "/api/v1/auths/roles", "get")
 	// fmt.Println("========")
-	// fmt.Println(b, err)
+	fmt.Println(b, err)
 
 	// auths, err := e.GetAuths()
 	// fmt.Println(auths, err)
