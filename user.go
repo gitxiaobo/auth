@@ -163,3 +163,14 @@ func (e *Enforcer) NomarlUserAuthStatus(userID int64) {
 	}
 	return
 }
+
+func (e *Enforcer) GetUserIDsByAuthCode(code string) (ids []int64, err error) {
+	var roleIDs []int64
+	e.DB.Model(&models.RoleAuthority{}).Where("JSON_CONTAINS(func_auth_codes, JSON_ARRAY(?))", code).Pluck("role_id", &roleIDs)
+
+	var userIDs []int64
+	e.DB.Model(&models.UserRole{}).Where("role_id in (?)", roleIDs).Pluck("user_id", &userIDs)
+
+	e.DB.Model(&models.User{}).Where("id in (?)", userIDs).Pluck("user_id", &ids)
+	return
+}

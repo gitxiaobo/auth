@@ -62,19 +62,22 @@ func Test(t *testing.T) {
 	// fmt.Println(roles, err)
 	// e.CreateOrUpdateRoleAuths(1, []string{"1100", "200"})
 
-	b, err := e.CheckApiAuth(1, "/api/v1/auths/roles", "get")
+	// b, err := e.CheckApiAuth(1, "/api/v1/auths/roles", "get")
 	// fmt.Println("========")
-	fmt.Println(b, err)
+	// fmt.Println(b, err)
 
 	// auths, err := e.GetAuths()
 	// fmt.Println(auths, err)
 
-	// e.CreateOrUpdateUser(1)
+	e.CreateOrUpdateUser(5)
 	// e.CreateOrUpdateRole(1, "技术人员")
-	// e.CreateOrUpdateUserRole(1, []int64{1})
+	e.CreateOrUpdateUserRole(5, []int64{4})
 	// auths, err := e.GetUserApiAuths(1)
 	// err = e.CreateOrUpdateRoleAuths(2, []string{"1223", "2d34"})
 	// fmt.Println(err)
 
+	// e.CreateOrUpdateRole(models.Role{Name: "tteat"}, 1, []string{"121101"})
+	ids, _ := e.GetUserIDsByAuthCode("100000")
+	fmt.Println(ids)
 	defer db.Close()
 }
