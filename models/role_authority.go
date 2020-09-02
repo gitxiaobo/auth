@@ -10,9 +10,9 @@ type RoleAuthority struct {
 	ID            int64
 	RoleID        int64  `gorm:"index:index_role_id"`
 	Category      int    `gorm:"default:1"`
-	FuncAuthCodes string `json:"func_auth_codes"`
-	ChosedCodes   string `json:"chosed_codes"` //前端配置角色权限时显示的权限码，和返回的用户权限码都差别
-	ApiAuthCodes  string
+	FuncAuthCodes string `gorm:"type:text" json:"func_auth_codes"`
+	ChosedCodes   string `gorm:"type:text" json:"chosed_codes"` //前端配置角色权限时显示的权限码，和返回的用户权限码都差别
+	ApiAuthCodes  string `gorm:"type:text"`
 
 	CreatedAt time.Time
 	UpdatedAt time.Time

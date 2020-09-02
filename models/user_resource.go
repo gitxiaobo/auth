@@ -6,7 +6,7 @@ type UserResource struct {
 	ID            int64
 	UserID        int64  `gorm:"index:index_user_id"`
 	ResourceKey   string `json:"key"`
-	ResourceValue string `json:"value"`
+	ResourceValue string `gorm:"type:text" json:"value"`
 	FieldName     string `json:"field_name"`
 
 	CreatedAt time.Time
