@@ -70,10 +70,10 @@ func Test(t *testing.T) {
 	// auths, err := e.GetAuths()
 	// fmt.Println(auths, err)
 
-	e.CreateOrUpdateUser(1)
-	e.CreateOrUpdateRole(models.Role{Name: "test"}, 1, []string{"121102"})
+	e.CreateOrUpdateUser(2)
+	e.CreateOrUpdateRole(models.Role{Name: "teeest"}, []string{"121102"})
 	// e.CreateOrUpdateRole(1, "技术人员")
-	e.CreateOrUpdateUserRole(1, []int64{1})
+	e.CreateOrUpdateUserRole(2, []int64{1})
 	// auths, err := e.GetUserApiAuths(1)
 	// err = e.CreateOrUpdateRoleAuths(2, []string{"1223", "2d34"})
 	// fmt.Println(err)

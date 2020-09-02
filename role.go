@@ -9,7 +9,7 @@ import (
 )
 
 // 创建或更新角色
-func (e *Enforcer) CreateOrUpdateRole(role models.Role, category int, codes []string) (rl models.Role, err error) {
+func (e *Enforcer) CreateOrUpdateRole(role models.Role, codes []string) (rl models.Role, err error) {
 	var r models.Role
 	err = e.DB.Where("name = ? and dealer_id = ?", role.Name, role.DealerID).First(&r).Error
 
@@ -31,7 +31,7 @@ func (e *Enforcer) CreateOrUpdateRole(role models.Role, category int, codes []st
 	}
 
 	if err == nil {
-		err = e.createOrUpdateRoleAuths(role.ID, category, codes)
+		err = e.createOrUpdateRoleAuths(role.ID, 1, codes)
 	}
 
 	err = e.DB.Where("id = ?", role.ID).Preload("Auths").First(&rl).Error
