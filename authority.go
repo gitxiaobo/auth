@@ -14,6 +14,7 @@ type Auth struct {
 	Name     string   `json:"name"`
 	Desc     string   `json:"desc"`
 	Code     string   `json:"code"`
+	Codes    []string `json:"codes"` //不同客户端的功能权限码
 	ApiCodes []string `json:"api_codes"`
 	Platform int      `json:"platform"` // 0 - 共用, 1 - 平台方, 2 - 中间商
 	Auths    []*Auth  `json:"children"`
