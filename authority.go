@@ -71,10 +71,16 @@ func removeDuplicateElement(arr []string) []string {
 // 获取父级功能权限码和api权限码
 func (e *Enforcer) getCodesByFuncAuthCodes(funcAuthCodes []string) (funcCodes []string, apiCodes []string, err error) {
 	auths, err := e.GetFuncAuths()
+	authIndex := 0
 	for _, l1 := range auths {
-		index := arrays.ContainsString(funcAuthCodes, l1.Code)
+		authIndex = 0
+		if arrays.ContainsString(funcAuthCodes, l1.Codes[1]) != -1 {
+			authIndex = 1
+		}
+
+		index := arrays.ContainsString(funcAuthCodes, l1.Codes[authIndex])
 		if index != -1 {
-			funcCodes = append(funcCodes, l1.Code)
+			funcCodes = append(funcCodes, l1.Codes[authIndex])
 			apiCodes = append(apiCodes, l1.ApiCodes...)
 
 			funcAuthCodes = append(funcAuthCodes[:index], funcAuthCodes[index+1:]...)
@@ -84,11 +90,16 @@ func (e *Enforcer) getCodesByFuncAuthCodes(funcAuthCodes []string) (funcCodes []
 		}
 
 		for _, l2 := range l1.Auths {
-			index := arrays.ContainsString(funcAuthCodes, l2.Code)
+			authIndex = 0
+			if arrays.ContainsString(funcAuthCodes, l2.Codes[1]) != -1 {
+				authIndex = 1
+			}
+
+			index := arrays.ContainsString(funcAuthCodes, l2.Codes[authIndex])
 			if index != -1 {
-				funcCodes = append(funcCodes, l1.Code)
+				funcCodes = append(funcCodes, l1.Codes[authIndex])
 				apiCodes = append(apiCodes, l1.ApiCodes...)
-				funcCodes = append(funcCodes, l2.Code)
+				funcCodes = append(funcCodes, l2.Codes[authIndex])
 				apiCodes = append(apiCodes, l2.ApiCodes...)
 
 				funcAuthCodes = append(funcAuthCodes[:index], funcAuthCodes[index+1:]...)
@@ -98,13 +109,18 @@ func (e *Enforcer) getCodesByFuncAuthCodes(funcAuthCodes []string) (funcCodes []
 			}
 
 			for _, l3 := range l2.Auths {
-				index := arrays.ContainsString(funcAuthCodes, l3.Code)
+				authIndex = 0
+				if arrays.ContainsString(funcAuthCodes, l3.Codes[1]) != -1 {
+					authIndex = 1
+				}
+
+				index := arrays.ContainsString(funcAuthCodes, l3.Codes[authIndex])
 				if index != -1 {
-					funcCodes = append(funcCodes, l1.Code)
+					funcCodes = append(funcCodes, l1.Codes[authIndex])
 					apiCodes = append(apiCodes, l1.ApiCodes...)
-					funcCodes = append(funcCodes, l2.Code)
+					funcCodes = append(funcCodes, l2.Codes[authIndex])
 					apiCodes = append(apiCodes, l2.ApiCodes...)
-					funcCodes = append(funcCodes, l3.Code)
+					funcCodes = append(funcCodes, l3.Codes[authIndex])
 					apiCodes = append(apiCodes, l3.ApiCodes...)
 
 					funcAuthCodes = append(funcAuthCodes[:index], funcAuthCodes[index+1:]...)
@@ -114,15 +130,19 @@ func (e *Enforcer) getCodesByFuncAuthCodes(funcAuthCodes []string) (funcCodes []
 				}
 
 				for _, l4 := range l3.Auths {
-					index := arrays.ContainsString(funcAuthCodes, l4.Code)
+					authIndex = 0
+					if arrays.ContainsString(funcAuthCodes, l4.Codes[1]) != -1 {
+						authIndex = 1
+					}
+					index := arrays.ContainsString(funcAuthCodes, l4.Codes[authIndex])
 					if index != -1 {
-						funcCodes = append(funcCodes, l1.Code)
+						funcCodes = append(funcCodes, l1.Codes[authIndex])
 						apiCodes = append(apiCodes, l1.ApiCodes...)
-						funcCodes = append(funcCodes, l2.Code)
+						funcCodes = append(funcCodes, l2.Codes[authIndex])
 						apiCodes = append(apiCodes, l2.ApiCodes...)
-						funcCodes = append(funcCodes, l3.Code)
+						funcCodes = append(funcCodes, l3.Codes[authIndex])
 						apiCodes = append(apiCodes, l3.ApiCodes...)
-						funcCodes = append(funcCodes, l4.Code)
+						funcCodes = append(funcCodes, l4.Codes[authIndex])
 						apiCodes = append(apiCodes, l4.ApiCodes...)
 
 						funcAuthCodes = append(funcAuthCodes[:index], funcAuthCodes[index+1:]...)
@@ -132,17 +152,21 @@ func (e *Enforcer) getCodesByFuncAuthCodes(funcAuthCodes []string) (funcCodes []
 					}
 
 					for _, l5 := range l4.Auths {
-						index := arrays.ContainsString(funcAuthCodes, l5.Code)
+						authIndex = 0
+						if arrays.ContainsString(funcAuthCodes, l5.Codes[1]) != -1 {
+							authIndex = 1
+						}
+						index := arrays.ContainsString(funcAuthCodes, l5.Codes[authIndex])
 						if index != -1 {
-							funcCodes = append(funcCodes, l1.Code)
+							funcCodes = append(funcCodes, l1.Codes[authIndex])
 							apiCodes = append(apiCodes, l1.ApiCodes...)
-							funcCodes = append(funcCodes, l2.Code)
+							funcCodes = append(funcCodes, l2.Codes[authIndex])
 							apiCodes = append(apiCodes, l2.ApiCodes...)
-							funcCodes = append(funcCodes, l3.Code)
+							funcCodes = append(funcCodes, l3.Codes[authIndex])
 							apiCodes = append(apiCodes, l3.ApiCodes...)
-							funcCodes = append(funcCodes, l4.Code)
+							funcCodes = append(funcCodes, l4.Codes[authIndex])
 							apiCodes = append(apiCodes, l4.ApiCodes...)
-							funcCodes = append(funcCodes, l5.Code)
+							funcCodes = append(funcCodes, l5.Codes[authIndex])
 							apiCodes = append(apiCodes, l5.ApiCodes...)
 
 							funcAuthCodes = append(funcAuthCodes[:index], funcAuthCodes[index+1:]...)
@@ -152,19 +176,23 @@ func (e *Enforcer) getCodesByFuncAuthCodes(funcAuthCodes []string) (funcCodes []
 						}
 
 						for _, l6 := range l5.Auths {
-							index := arrays.ContainsString(funcAuthCodes, l6.Code)
+							authIndex = 0
+							if arrays.ContainsString(funcAuthCodes, l6.Codes[1]) != -1 {
+								authIndex = 1
+							}
+							index := arrays.ContainsString(funcAuthCodes, l6.Codes[authIndex])
 							if index != -1 {
-								funcCodes = append(funcCodes, l1.Code)
+								funcCodes = append(funcCodes, l1.Codes[authIndex])
 								apiCodes = append(apiCodes, l1.ApiCodes...)
-								funcCodes = append(funcCodes, l2.Code)
+								funcCodes = append(funcCodes, l2.Codes[authIndex])
 								apiCodes = append(apiCodes, l2.ApiCodes...)
-								funcCodes = append(funcCodes, l3.Code)
+								funcCodes = append(funcCodes, l3.Codes[authIndex])
 								apiCodes = append(apiCodes, l3.ApiCodes...)
-								funcCodes = append(funcCodes, l4.Code)
+								funcCodes = append(funcCodes, l4.Codes[authIndex])
 								apiCodes = append(apiCodes, l4.ApiCodes...)
-								funcCodes = append(funcCodes, l5.Code)
+								funcCodes = append(funcCodes, l5.Codes[authIndex])
 								apiCodes = append(apiCodes, l5.ApiCodes...)
-								funcCodes = append(funcCodes, l6.Code)
+								funcCodes = append(funcCodes, l6.Codes[authIndex])
 								apiCodes = append(apiCodes, l6.ApiCodes...)
 
 								funcAuthCodes = append(funcAuthCodes[:index], funcAuthCodes[index+1:]...)
@@ -174,21 +202,25 @@ func (e *Enforcer) getCodesByFuncAuthCodes(funcAuthCodes []string) (funcCodes []
 							}
 
 							for _, l7 := range l6.Auths {
-								index := arrays.ContainsString(funcAuthCodes, l7.Code)
+								authIndex = 0
+								if arrays.ContainsString(funcAuthCodes, l7.Codes[1]) != -1 {
+									authIndex = 1
+								}
+								index := arrays.ContainsString(funcAuthCodes, l7.Codes[authIndex])
 								if index != -1 {
-									funcCodes = append(funcCodes, l1.Code)
+									funcCodes = append(funcCodes, l1.Codes[authIndex])
 									apiCodes = append(apiCodes, l1.ApiCodes...)
-									funcCodes = append(funcCodes, l2.Code)
+									funcCodes = append(funcCodes, l2.Codes[authIndex])
 									apiCodes = append(apiCodes, l2.ApiCodes...)
-									funcCodes = append(funcCodes, l3.Code)
+									funcCodes = append(funcCodes, l3.Codes[authIndex])
 									apiCodes = append(apiCodes, l3.ApiCodes...)
-									funcCodes = append(funcCodes, l4.Code)
+									funcCodes = append(funcCodes, l4.Codes[authIndex])
 									apiCodes = append(apiCodes, l4.ApiCodes...)
-									funcCodes = append(funcCodes, l5.Code)
+									funcCodes = append(funcCodes, l5.Codes[authIndex])
 									apiCodes = append(apiCodes, l5.ApiCodes...)
-									funcCodes = append(funcCodes, l6.Code)
+									funcCodes = append(funcCodes, l6.Codes[authIndex])
 									apiCodes = append(apiCodes, l6.ApiCodes...)
-									funcCodes = append(funcCodes, l7.Code)
+									funcCodes = append(funcCodes, l7.Codes[authIndex])
 									apiCodes = append(apiCodes, l7.ApiCodes...)
 
 									funcAuthCodes = append(funcAuthCodes[:index], funcAuthCodes[index+1:]...)
