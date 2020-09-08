@@ -33,11 +33,7 @@ func (e *Enforcer) GetResources() (resoures []Resource, err error) {
 
 	json.Unmarshal([]byte(byteValue), &resoures)
 	for _, r := range resoures {
-		var items []models.Resource
-		err = e.DB.Where("resource_key = ?", r.Key).Find(&items).Error
-		if err == nil {
-			r.Items = items
-		}
+		e.DB.Where("resource_key = ?", r.Key).Find(&r.Items)
 	}
 	return
 }
