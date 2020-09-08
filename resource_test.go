@@ -17,11 +17,13 @@ func TestResource(t *testing.T) {
 
 	e, _ := NewEnforcer(db, "config/auth.json", "config/api_auth.json", "config/resource.json")
 	e.CreateTable()
-	// r, _ := e.GetResources()
-	// fmt.Println(r)
 
-	r, s, _ := e.GetUserResourcesByKey(1, "user")
-	fmt.Println(r, s)
+	// e.SetResource("user", []models.Resource{models.Resource{Name: "wuxiaobo", Value: "23"}, models.Resource{Name: "xxxx", Value: "2"}})
+	r, _ := e.GetResources()
+	fmt.Println(r)
+
+	// r, s, _ := e.GetUserResourcesByKey(1, "user")
+	// fmt.Println(r, s)
 	// e.CreateOrUpdateUser(1)
 	// b := e.isSuperAdmin(1)
 	// fmt.Println(b)

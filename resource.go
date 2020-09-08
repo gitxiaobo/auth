@@ -15,7 +15,8 @@ type Resource struct {
 	Key       string                 `json:"key"`
 	Table     string                 `json:"table"`
 	Platform  int                    `json:"platform"` // 0 - 共用, 1 - 平台方, 2 - 中间商
-	Items     map[string]interface{} `json:"items"`
+	Items     []models.Resource      `json:"items"`
+	Options   map[string]interface{} `json:"options"`
 }
 
 // 获取数据资源配置文件数据
@@ -31,6 +32,23 @@ func (e *Enforcer) GetResources() (resoures []Resource, err error) {
 	byteValue, _ := ioutil.ReadAll(jsonFile)
 
 	json.Unmarshal([]byte(byteValue), &resoures)
+	for _, r := range resoures {
+		var items []models.Resource
+		err = e.DB.Where("key = ?", r.Key).Find(&items).Error
+		if err == nil {
+			r.Items = items
+		}
+	}
+	return
+}
+
+// 资源池设置
+func (e *Enforcer) SetResource(key string, resources []models.Resource) (err error) {
+	e.DB.Where("key = ?", key).Delete(&models.Resource{})
+	for _, r := range resources {
+		r.Key = key
+		err = e.DB.FirstOrCreate(&r, models.Resource{Key: r.Key, Value: r.Value}).Error
+	}
 	return
 }
 
