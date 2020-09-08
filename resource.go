@@ -32,8 +32,11 @@ func (e *Enforcer) GetResources() (resoures []Resource, err error) {
 	byteValue, _ := ioutil.ReadAll(jsonFile)
 
 	json.Unmarshal([]byte(byteValue), &resoures)
-	for _, r := range resoures {
-		e.DB.Where("resource_key = ?", r.Key).Find(&r.Items)
+	for index, r := range resoures {
+		err = e.DB.Where("resource_key = ?", r.Key).Find(&r.Items).Error
+		if err == nil {
+			resoures[index].Items = r.Items
+		}
 	}
 	return
 }
