@@ -34,7 +34,7 @@ func (e *Enforcer) GetResources() (resoures []Resource, err error) {
 	json.Unmarshal([]byte(byteValue), &resoures)
 	for _, r := range resoures {
 		var items []models.Resource
-		err = e.DB.Where("key = ?", r.Key).Find(&items).Error
+		err = e.DB.Where("resource_key = ?", r.Key).Find(&items).Error
 		if err == nil {
 			r.Items = items
 		}
@@ -44,10 +44,10 @@ func (e *Enforcer) GetResources() (resoures []Resource, err error) {
 
 // 资源池设置
 func (e *Enforcer) SetResource(key string, resources []models.Resource) (err error) {
-	e.DB.Where("key = ?", key).Delete(&models.Resource{})
+	e.DB.Where("resource_key = ?", key).Delete(&models.Resource{})
 	for _, r := range resources {
-		r.Key = key
-		err = e.DB.FirstOrCreate(&r, models.Resource{Key: r.Key, Value: r.Value}).Error
+		r.ResourceKey = key
+		err = e.DB.FirstOrCreate(&r, models.Resource{ResourceKey: r.ResourceKey, ResourceValue: r.ResourceValue}).Error
 	}
 	return
 }

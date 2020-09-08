@@ -3,11 +3,11 @@ package models
 import "time"
 
 type Resource struct {
-	ID     int64
-	Key    string `json:"key"`
-	Name   string `json:"name"`
-	Value  string `json:"value"`
-	Remark string `json:"remark"`
+	ID            int64
+	ResourceKey   string `json:"key"`
+	ResourceName  string `json:"name"`
+	ResourceValue string `json:"value"`
+	Remark        string `json:"remark"`
 
 	CreatedAt time.Time
 	UpdatedAt time.Time
