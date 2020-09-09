@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/gitxiaobo/auth/models"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
@@ -70,8 +69,8 @@ func Test(t *testing.T) {
 	// auths, err := e.GetAuths()
 	// fmt.Println(auths, err)
 
-	// e.CreateOrUpdateUser(2)
-	e.CreateOrUpdateRole(models.Role{Name: "teee333sdt", ID: 6}, []string{"121101", "221207", "121208"})
+	e.CreateOrUpdateUser(2, 1)
+	// e.CreateOrUpdateRole(models.Role{Name: "teee333sdt", ID: 6}, []string{"121101", "221207", "121208"})
 	// e.CreateOrUpdateRole(1, "技术人员")
 	// e.CreateOrUpdateUserRole(2, []int64{1})
 	// auths, err := e.GetUserApiAuths(1)

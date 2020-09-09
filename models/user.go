@@ -5,6 +5,7 @@ import "time"
 type User struct {
 	ID         int64
 	UserID     int64  `gorm:"index:index_user_id"`
+	DealerID   int64  `gorm:"index:index_dealer_id"`
 	Name       string `json:"name"`
 	Mobile     string `json:"mobile"`
 	Status     int    `gorm:"default:1"`

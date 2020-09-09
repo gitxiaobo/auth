@@ -8,6 +8,7 @@ type UserResource struct {
 	ResourceKey   string `json:"key"`
 	ResourceValue string `gorm:"type:text" json:"value"`
 	FieldName     string `json:"field_name"`
+	DealerID      int64  `gorm:"index:index_dealer_id"`
 
 	CreatedAt time.Time
 	UpdatedAt time.Time

@@ -11,8 +11,8 @@ import (
 )
 
 // 创建或更新用户
-func (e *Enforcer) CreateOrUpdateUser(userID int64) (user models.User, err error) {
-	err = e.DB.FirstOrCreate(&user, models.User{UserID: userID}).Error
+func (e *Enforcer) CreateOrUpdateUser(userID int64, dealerID int64) (user models.User, err error) {
+	err = e.DB.FirstOrCreate(&user, models.User{UserID: userID, DealerID: dealerID}).Error
 	return
 }
 

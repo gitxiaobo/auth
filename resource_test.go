@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/gitxiaobo/auth/models"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
@@ -19,7 +18,8 @@ func TestResource(t *testing.T) {
 	e, _ := NewEnforcer(db, "config/auth.json", "config/api_auth.json", "config/resource.json")
 	e.CreateTable()
 
-	e.SetResource("user", []models.Resource{models.Resource{ResourceName: "wuxiaobo", ResourceValue: "3"}, models.Resource{ResourceName: "xxxx", ResourceValue: "2"}})
+	e.getFieldNameByKey("user")
+	// e.SetResource("user", 1, []models.Resource{models.Resource{ResourceName: "xxxx", ResourceValue: "2"}})
 	// r, _ := e.GetResources()
 	// fmt.Println(r)
 
@@ -29,6 +29,6 @@ func TestResource(t *testing.T) {
 	// b := e.isSuperAdmin(1)
 	// fmt.Println(b)
 
-	// e.CreateOrUpdateUserResouce(1, "user", []int64{1, 2, 3})
+	// e.CreateOrUpdateUserResouce(1, "user", []int64{2, 3})
 	defer db.Close()
 }
