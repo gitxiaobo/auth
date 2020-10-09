@@ -49,7 +49,12 @@ func (e *Enforcer) SetResource(key string, dealerID int64, resources []models.Re
 	for _, r := range resources {
 		r.ResourceKey = key
 		r.DealerID = dealerID
-		err = e.DB.FirstOrCreate(&r, models.Resource{ResourceKey: r.ResourceKey, ResourceValue: r.ResourceValue, DealerID: r.DealerID}).Error
+		// err = e.DB.FirstOrCreate(&r, models.Resource{ResourceKey: r.ResourceKey, ResourceValue: r.ResourceValue, DealerID: r.DealerID}).Error
+		var re models.Resource
+		err = e.DB.Where("resource_key = ? and resource_value = ? and dealer_id = ?", r.ResourceKey, r.ResourceValue, r.DealerID).Find(&re).Error
+		if err != nil {
+			err = e.DB.Create(&r).Error
+		}
 		if err == nil {
 			v, _ := strconv.Atoi(r.ResourceValue)
 			value = append(value, int64(v))

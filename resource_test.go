@@ -20,8 +20,9 @@ func TestResource(t *testing.T) {
 	e.CreateTable()
 
 	// e.getFieldNameByKey("user")
-	e.CreateOrUpdateRole(models.Role{Name: "53333", ID: 8}, []string{"121101", "151104", "251104"})
-	// e.SetResource("user", 1, []models.Resource{models.Resource{ResourceName: "xxxx", ResourceValue: "2"}})
+	// e.CreateOrUpdateRole(models.Role{Name: "53333", ID: 8}, []string{"121101", "151104", "251104"})
+	e.SetResource("user", 1, []models.Resource{models.Resource{ResourceName: "xxxx", ResourceValue: "23333"}})
+	e.SetResource("user", 3, []models.Resource{models.Resource{ResourceName: "xxxx", ResourceValue: "23333"}, models.Resource{ResourceName: "xxxx", ResourceValue: "23"}})
 	// r, _ := e.GetResources()
 	// fmt.Println(r)
 
