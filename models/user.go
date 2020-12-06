@@ -9,7 +9,7 @@ type User struct {
 	Name       string `json:"name"`
 	Mobile     string `json:"mobile"`
 	Status     int    `gorm:"default:1"`
-	AuthStatus int    `gorm:"default:1"`
+	AuthStatus int    `gorm:"default:1"` //权限是否发生变化 1 - 否， 2 - 是
 
 	Roles []UserRole
 
