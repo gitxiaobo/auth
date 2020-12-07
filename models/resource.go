@@ -3,7 +3,7 @@ package models
 import "time"
 
 type Resource struct {
-	ID            int64
+	ID            int64  `json:id`
 	ResourceKey   string `json:"key"`
 	ResourceName  string `json:"name"`
 	ResourceValue string `json:"value"`
