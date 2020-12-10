@@ -115,7 +115,7 @@ func (e *Enforcer) GetUserFuncAuths(userID int64) (results []UserFuncCode, err e
 		}
 	}
 	for index, res := range results {
-		codeString := strings.ReplaceAll(res.CodeString, "],[", ",")
+		codeString := strings.ReplaceAll(res.CodeString, "][", ",")
 		json.Unmarshal([]byte(codeString), &results[index].Codes)
 
 		results[index].CodeString = ""
