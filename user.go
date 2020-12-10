@@ -101,8 +101,19 @@ func (e *Enforcer) GetUserFuncAuths(userID int64) (results []UserFuncCode, err e
 		return
 	}
 
-	err = e.DB.Table("auth_role_authorities").Select("category, group_concat(func_auth_codes) as code_string").Where("role_id in (?)", roleIDs).Where("func_auth_codes != '[]' and func_auth_codes is not null").Group("category").Scan(&results).Error
-
+	// err = e.DB.Table("auth_role_authorities").Select("category, group_concat(func_auth_codes) as code_string").Where("role_id in (?)", roleIDs).Where("func_auth_codes != '[]' and func_auth_codes is not null").Group("category").Scan(&results).Error
+	results = make([]UserFuncCode, 2)
+	var roleAuths []models.RoleAuthority
+	err = e.DB.Table("auth_role_authorities").Select("category, func_auth_codes").Where("role_id in (?)", roleIDs).Where("func_auth_codes != '[]' and func_auth_codes is not null").Find(&roleAuths).Error
+	for _, ra := range roleAuths {
+		if ra.Category == 1 {
+			results[0].Category = 1
+			results[0].CodeString += ra.FuncAuthCodes
+		} else if ra.Category == 2 {
+			results[1].Category = 2
+			results[1].CodeString += ra.FuncAuthCodes
+		}
+	}
 	for index, res := range results {
 		codeString := strings.ReplaceAll(res.CodeString, "],[", ",")
 		json.Unmarshal([]byte(codeString), &results[index].Codes)
