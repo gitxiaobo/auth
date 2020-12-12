@@ -42,8 +42,8 @@ func Test(t *testing.T) {
 
 	// e.CreateOrUpdateUserRole(2, []int64{1})
 	// e.createOrUpdateRoleAuths(1, 1, []string{"11301"})
-	// s, err := e.GetUserFuncAuths(1)
-	// fmt.Println(b, err.Error() == "")
+	s, err := e.GetUserFuncAuths(1)
+	fmt.Println(s)
 	// e.DeleteRole(1)
 
 	// e.createOrUpdateRoleAuths(4, 1, []string{"1100", "200"})
@@ -69,7 +69,7 @@ func Test(t *testing.T) {
 	// auths, err := e.GetAuths()
 	// fmt.Println(auths, err)
 
-	e.CreateOrUpdateUser(2, 1)
+	// e.CreateOrUpdateUser(2, 1)
 	// e.CreateOrUpdateRole(models.Role{Name: "teee333sdt", ID: 6}, []string{"121101", "221207", "121208"})
 	// e.CreateOrUpdateRole(1, "技术人员")
 	// e.CreateOrUpdateUserRole(2, []int64{1})
