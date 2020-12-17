@@ -65,6 +65,12 @@ func (e *Enforcer) SetResource(key string, dealerID int64, resources []models.Re
 	return
 }
 
+// 资源池增加单个资源
+func (e *Enforcer) SetSingleResource(key string, dealerID int64, r models.Resource) (err error) {
+	err = e.DB.FirstOrCreate(&r, models.Resource{ResourceKey: key, ResourceValue: r.ResourceValue, DealerID: dealerID}).Error
+	return
+}
+
 //求交集
 func intersect(slice1, slice2 []int64) []int64 {
 	m := make(map[int64]int)
