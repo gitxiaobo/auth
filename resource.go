@@ -128,7 +128,7 @@ func (e *Enforcer) GetUserResourcesByKey(userID int64, key string) (value []int6
 		fieldName = u.FieldName
 		if u.AllArea == 1 {
 			var v []int64
-			e.DB.Where("dealer_id = ? and resource_key = ? and area_id = ?", user.DealerID, key, u.AreaID).Pluck("resource_value", &v)
+			e.DB.Table("auth_user_resources").Where("dealer_id = ? and resource_key = ? and area_id = ?", user.DealerID, key, u.AreaID).Pluck("resource_value", &v)
 			value = append(value, v...)
 		} else {
 			var v []int64
