@@ -103,7 +103,7 @@ func intersect(slice1, slice2 []int64) []int64 {
 // 检查用户资源池
 func (e *Enforcer) checkUserResource(key string, nv []int64, dealerID int64) (err error) {
 	var userResources []models.UserResource
-	e.DB.Where("resource_key = ? and dealer_id = ? and all = 0", key, dealerID).Find(&userResources)
+	e.DB.Where("resource_key = ? and dealer_id = ? and all_area = 0", key, dealerID).Find(&userResources)
 	for _, ur := range userResources {
 		var value []int64
 		json.Unmarshal([]byte(ur.ResourceValue), &value)
@@ -126,7 +126,7 @@ func (e *Enforcer) GetUserResourcesByKey(userID int64, key string) (value []int6
 
 	for _, u := range ur {
 		fieldName = u.FieldName
-		if u.All == 1 {
+		if u.AllArea == 1 {
 			var v []int64
 			e.DB.Where("dealer_id = ? and resource_key = ? and area_id = ?", user.DealerID, key, u.AreaID).Pluck("resource_value", &v)
 			value = append(value, v...)
@@ -187,7 +187,7 @@ func (e *Enforcer) CreateOrUpdateUserResouce(userID int64, key string, ids []int
 	ur.FieldName = fieldName
 	ur.DealerID = user.DealerID
 	ur.AreaID = areaID
-	ur.All = all
+	ur.AllArea = all
 
 	err = e.DB.Where("user_id = ? and resource_key = ? and area_id = ?", user.ID, key, areaID).First(&ur).Error
 	if err != nil {
@@ -196,7 +196,7 @@ func (e *Enforcer) CreateOrUpdateUserResouce(userID int64, key string, ids []int
 	}
 
 	// err = e.DB.Model(&ur).Update("resource_value", string(idsString)).Error
-	err = e.DB.Model(&ur).Update(map[string]interface{}{"resource_value": string(idsString), "all": all}).Error
+	err = e.DB.Model(&ur).Update(map[string]interface{}{"resource_value": string(idsString), "all_area": all}).Error
 	return
 }
 
