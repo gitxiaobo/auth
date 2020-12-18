@@ -9,6 +9,7 @@ type Resource struct {
 	ResourceValue string `json:"value"`
 	Remark        string `json:"remark"`
 	DealerID      int64  `gorm:"index:index_dealer_id"`
+	AreaID        int    `"gorm:"index:index_ared_id" json:"area_id"` //区域
 
 	CreatedAt time.Time
 	UpdatedAt time.Time
