@@ -127,9 +127,12 @@ func (e *Enforcer) GetUserResourcesByKey(userID int64, key string) (value []int6
 	for _, u := range ur {
 		fieldName = u.FieldName
 		if u.AllArea == 1 {
-			var v []int64
-			e.DB.Table("auth_user_resources").Where("dealer_id = ? and resource_key = ? and area_id = ?", user.DealerID, key, u.AreaID).Pluck("resource_value", &v)
-			value = append(value, v...)
+			var vals []string
+			e.DB.Table("auth_resources").Where("dealer_id = ? and resource_key = ? and area_id = ?", user.DealerID, key, u.AreaID).Pluck("resource_value", &vals)
+			for _, vl := range vals {
+				id, _ := strconv.Atoi(vl)
+				value = append(value, int64(id))
+			}
 		} else {
 			var v []int64
 			json.Unmarshal([]byte(u.ResourceValue), &v)
