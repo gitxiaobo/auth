@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"testing"
 
+	"github.com/gitxiaobo/auth/models"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
@@ -22,16 +23,16 @@ func TestResource(t *testing.T) {
 	// e.getFieldNameByKey("user")
 	// e.CreateOrUpdateRole(models.Role{Name: "53333", ID: 8}, []string{"121101", "151104", "251104"})
 	// e.SetResource("user", 1, []models.Resource{models.Resource{ResourceName: "xxxx", ResourceValue: "23333", AreaID: 2}})
-	// e.SetResource("user", 3, []models.Resource{models.Resource{ResourceName: "xxxx", ResourceValue: "23333"}, models.Resource{ResourceName: "xxxx", ResourceValue: "23"}})
+	e.SetResource("user", 3, []models.Resource{models.Resource{ResourceName: "xxxx", ResourceValue: "23333"}, models.Resource{ResourceName: "xxxx", ResourceValue: "23", AreaID: 1}})
 	// r, _ := e.GetResources()
 	// fmt.Println(r)
 
 	r, s, _ := e.GetUserResourcesByKey(1, "user")
 	fmt.Println(r, s)
-	// e.CreateOrUpdateUser(1)
+	e.CreateOrUpdateUser(1, 1)
 	// b := e.isSuperAdmin(1)
 	// fmt.Println(b)
 
-	// e.CreateOrUpdateUserResouce(1, "user", []int64{22, 3}, 2, 1)
+	e.CreateOrUpdateUserResouce(1, "user", []int64{22, 3}, 2, 1)
 	defer db.Close()
 }
