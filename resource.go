@@ -8,6 +8,7 @@ import (
 	"strconv"
 
 	"github.com/gitxiaobo/auth/models"
+	"github.com/wxnacy/wgo/arrays"
 )
 
 type Resource struct {
@@ -67,7 +68,18 @@ func (e *Enforcer) SetResource(key string, dealerID int64, resources []models.Re
 
 // 资源池增加单个资源
 func (e *Enforcer) SetSingleResource(key string, dealerID int64, r models.Resource) (err error) {
-	err = e.DB.FirstOrCreate(&r, models.Resource{ResourceKey: key, ResourceValue: r.ResourceValue, DealerID: dealerID}).Error
+	r.ResourceKey = key
+	r.DealerID = dealerID
+
+	var or models.Resource
+	e.DB.Where("resource_key = ? and resource_value = ? and dealer_id = ?", key, r.ResourceValue, dealerID).Find(&or)
+	if or.ID == 0 {
+		err = e.DB.Create(&r).Error
+	} else {
+		err = e.DB.Model(&or).Update(map[string]interface{}{"area_id": r.AreaID}).Error
+	}
+
+	// err = e.DB.FirstOrCreate(&r, models.Resource{ResourceKey: key, ResourceValue: r.ResourceValue, DealerID: dealerID}).Error
 	return
 }
 
@@ -185,6 +197,39 @@ func (e *Enforcer) CreateOrUpdateUserResouce(userID int64, key string, ids []int
 
 	// err = e.DB.Model(&ur).Update("resource_value", string(idsString)).Error
 	err = e.DB.Model(&ur).Update(map[string]interface{}{"resource_value": string(idsString), "all": all}).Error
+	return
+}
+
+// 添加自己为自己的资源
+func (e *Enforcer) AddSelfToResoure(userID int64, key string, id int64, areaID int) (err error) {
+	user, err := e.findUserByUserID(userID)
+	if err != nil {
+		return
+	}
+
+	var ur models.UserResource
+	ur.DealerID = user.DealerID
+	ur.ResourceKey = key
+	ur.AreaID = areaID
+	ur.UserID = user.ID
+	err = e.DB.Where("user_id = ? and resource_key = ? and area_id = ?", user.ID, key, areaID).First(&ur).Error
+	if err != nil {
+		ur.FieldName = e.getFieldNameByKey(key)
+		idsString, _ := json.Marshal([]int64{id})
+		ur.ResourceValue = string(idsString)
+		e.DB.Create(&ur)
+		return
+	}
+
+	var v []int64
+	json.Unmarshal([]byte(ur.ResourceValue), &v)
+
+	if arrays.ContainsInt(v, id) == -1 {
+		v = append(v, id)
+		idsString, _ := json.Marshal(v)
+		err = e.DB.Model(&ur).Update(map[string]interface{}{"resource_value": string(idsString)}).Error
+	}
+
 	return
 }
 
