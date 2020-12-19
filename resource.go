@@ -76,7 +76,7 @@ func (e *Enforcer) SetSingleResource(key string, dealerID int64, r models.Resour
 	if or.ID == 0 {
 		err = e.DB.Create(&r).Error
 	} else {
-		err = e.DB.Model(&or).Update(map[string]interface{}{"area_id": r.AreaID}).Error
+		err = e.DB.Model(&or).Update(map[string]interface{}{"area_id": r.AreaID, "resource_name": r.ResourceName}).Error
 	}
 
 	// err = e.DB.FirstOrCreate(&r, models.Resource{ResourceKey: key, ResourceValue: r.ResourceValue, DealerID: dealerID}).Error
