@@ -248,3 +248,19 @@ func (e *Enforcer) getFieldNameByKey(key string) string {
 	}
 	return ""
 }
+
+//	查询拥有某个资源的所有人
+func (e *Enforcer) GetFatherUserIDs(key string, sourceValue string) (ids []int64, err error) {
+	var resource models.Resource
+	err = e.DB.Where("resource_key = ? and resource_value = ?", key, sourceValue).First(&resource).Error
+	fmt.Println("======", resource.ID, resource.ResourceKey, resource.ResourceValue, resource.AreaID)
+	if err == nil {
+		var userIDs []int64
+		v, _ := strconv.Atoi(resource.ResourceValue)
+		err = e.DB.Table("auth_user_resources").Where("resource_key = ? and (JSON_CONTAINS(resource_value, JSON_ARRAY(?)) or (area_id = ? and all_area = 1))", resource.ResourceKey, v, resource.AreaID).Pluck("user_id", &userIDs).Error
+		if err == nil {
+			err = e.DB.Table("auth_users").Where("id in (?)", userIDs).Pluck("user_id", &ids).Error
+		}
+	}
+	return
+}

@@ -16,8 +16,10 @@ func TestResource(t *testing.T) {
 	}
 
 	e, _ := NewEnforcer(db, "config/auth.json", "config/api_auth.json", "config/resource.json")
-	e.CreateTable()
-	e.AddSelfToResoure(1, "user", 8, 2)
+	ids, _ := e.GetFatherUserIDs("user", "30")
+	fmt.Println(ids)
+	// e.CreateTable()
+	// e.AddSelfToResoure(1, "user", 8, 2)
 
 	// e.SetSingleResource("user", 2, models.Resource{ResourceName: "222", ResourceValue: "1111", AreaID: 233})
 	// e.getFieldNameByKey("user")
