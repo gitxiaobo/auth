@@ -273,7 +273,7 @@ func (e *Enforcer) GetUserIDsByResourceAndRole(key string, sourceValue string, r
 		v, _ := strconv.Atoi(resource.ResourceValue)
 		err = e.DB.Table("auth_user_resources").Where("resource_key = ? and (JSON_CONTAINS(resource_value, JSON_ARRAY(?)) or (area_id = ? and all_area = 1))", resource.ResourceKey, v, resource.AreaID).Pluck("user_id", &userIDs).Error
 		if err == nil {
-			err = e.DB.Table("auth_users").Where("id in (?) and user_id in (select user_id from auth_user_roles where role_id = ?)", userIDs, roleID).Pluck("user_id", &ids).Error
+			err = e.DB.Table("auth_users").Where("id in (?) and id in (select user_id from auth_user_roles where role_id = ?)", userIDs, roleID).Pluck("user_id", &ids).Error
 		}
 	}
 	return
