@@ -16,7 +16,7 @@ func TestResource(t *testing.T) {
 	}
 
 	e, _ := NewEnforcer(db, "config/auth.json", "config/api_auth.json", "config/resource.json")
-	ids, _ := e.GetFatherUserIDs("user", "30")
+	ids, _ := e.GetUserIDsByResourceAndRole("user", "30", 16)
 	fmt.Println(ids)
 	// e.CreateTable()
 	// e.AddSelfToResoure(1, "user", 8, 2)
