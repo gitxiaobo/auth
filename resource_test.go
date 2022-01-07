@@ -9,14 +9,14 @@ import (
 )
 
 func TestResource(t *testing.T) {
-	db, err := gorm.Open("mysql", "root:@tcp(127.0.0.1:3306)/auth?charset=utf8&parseTime=True&loc=Local")
+	db, err := gorm.Open("mysql", "root:@tcp(127.0.0.1:3306)/leybold?charset=utf8&parseTime=True&loc=Local")
 	if err != nil {
 		fmt.Println("failed to connect database:", err)
 		return
 	}
 
 	e, _ := NewEnforcer(db, "config/auth.json", "config/api_auth.json", "config/resource.json")
-	ids, _ := e.GetUserIDsByResourceAndRole("user", "30", 16)
+	ids, _ := e.GetUserIDsByRoles([]int64{66})
 	fmt.Println(ids)
 	// e.CreateTable()
 	// e.AddSelfToResoure(1, "user", 8, 2)

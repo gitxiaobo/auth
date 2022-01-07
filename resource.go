@@ -278,3 +278,9 @@ func (e *Enforcer) GetUserIDsByResourceAndRole(key string, sourceValue string, r
 	}
 	return
 }
+
+//	查询拥有某些角色的所有人
+func (e *Enforcer) GetUserIDsByRoles(roleIDs []int64) (ids []int64, err error) {
+	err = e.DB.Table("auth_users").Where("id in (select user_id from auth_user_roles where role_id in (?))", roleIDs).Pluck("user_id", &ids).Error
+	return
+}
